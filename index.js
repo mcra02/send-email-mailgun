@@ -7,13 +7,13 @@ const {EmailService} = require('./email.service')
 
 dotenv.config()
 
+const corsSites = process.env.CORS_SITES.split(',')
+console.log(corsSites)
 const app  =  express()
 
 app.use(morgan('dev'))
 app.use(cors({
-    origin: [
-        process.env.CORS_SITES
-    ]
+    origin: corsSites
 }))
 app.use(bodyParser.urlencoded({
     extended: false
