@@ -8,9 +8,11 @@ exports.EmailService = {
         if(data.subject === undefined) throw new Error('Subject is not defined!')
         if(data.message === undefined) throw new Error('Message is not defined!')
 
+        const to = process.env.EMAILS_TO ? `${process.env.EMAILS_TO},${data.email}`: `${data.email}`
+
         const mailBody = {
             from: `<${process.env.FROM_EMAIL}>`,
-            to: `${process.env.EMAILS_TO},${data.email}`,
+            to,
             subject: data.subject,
             text: data.message
         }

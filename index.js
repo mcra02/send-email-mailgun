@@ -10,7 +10,11 @@ dotenv.config()
 const app  =  express()
 
 app.use(morgan('dev'))
-app.use(cors())
+app.use(cors({
+    origin: [
+        process.env.CORS_SITES
+    ]
+}))
 app.use(bodyParser.urlencoded({
     extended: false
 }));
