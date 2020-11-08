@@ -8,17 +8,26 @@ const {EmailService} = require('./email.service')
 dotenv.config()
 
 const whitelist = process.env.CORS_SITES.split(',')
-console.log(whitelist)
-const app  =  express()
+let app  =  express()
 
+let corsOptions = {
+    origin: function (origin, callback) {
+      if (!origin || whitelist.indexOf(origin) !== -1) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    }
+  }
+
+// app.use(cors(corsOptions))
 app.use(morgan('dev'))
-app.use(cors())
 app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(bodyParser.json());
 
-app.post('/email/send', async (req, res) => {
+app.post('/email/send', cors(corsOptions), async (req, res) => {
     const status = {}
     try {
         await EmailService.sendEmail(req.body)
