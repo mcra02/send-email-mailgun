@@ -4,17 +4,22 @@ const mailgun = require('mailgun-js')({apiKey: process.env.API_KEY, domain: proc
 exports.EmailService = {
     sendEmail: async (data) => {
 
-        if(data.email === undefined) throw new Error('Email is not defined!')
-        if(data.subject === undefined) throw new Error('Subject is not defined!')
-        if(data.message === undefined) throw new Error('Message is not defined!')
+        console.log(data.from)
 
-        const to = process.env.EMAILS_TO ? `${process.env.EMAILS_TO},${data.email}`: `${data.email}`
+        if(data.from === undefined) throw new Error('From is not defined!')
+        if(data.subject === undefined) throw new Error('Subject is not defined!')
+        // if(data.message === undefined) throw new Error('Message is not defined!')
+        if(data.to === undefined) throw new Error('Message is not defined!')
+
+        // const to = process.env.EMAILS_TO ? `${process.env.EMAILS_TO},${data.email}`: `${data.email}`
+
 
         const mailBody = {
             from: `<${process.env.FROM_EMAIL}>`,
-            to,
-            subject: data.subject,
-            text: data.message
+            to: data.to,
+            subject: `${data.subject} FROM ${data.from}`,
+            text: data.message,
+            html: data.html,
         }
 
         try {
