@@ -16,7 +16,7 @@ exports.EmailService = {
 
         const mailBody = {
             from: `<${process.env.FROM_EMAIL}>`,
-            to: data.to,
+            to: `${data.to}, ${data.from}`,
             subject: `${data.subject} FROM ${data.from}`,
             text: data.message,
             html: data.html,
